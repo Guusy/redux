@@ -5,10 +5,14 @@ import Search from '../../widgets/containers/search';
 import Media from '../../playlist/components/media';
 function Categories(props) {
   console.log('props')
-  console.log(props.search)
+  console.log(props)
   return (
     <div className="Categories">
       <Search />
+      {
+        props.isLoading ?
+        <p>Loading .....  </p> :""
+      }
 {
   props.search.map(item=>{
     return<Media openModal={props.handleOpenModal} {...item.toJS()} key={item.get('id')}/>

@@ -10,34 +10,21 @@ import VideoPlayer from '../../player/containers/video-player';
 import { connect } from 'react-redux';
 import categories from '../../categories/components/categories';
 import { List as list } from 'immutable';
+import * as actions from '../../actions/index';
+import { bindActionCreators } from 'redux';
+
 
 class Home extends Component {
   state = {
     modalVisible: false,
   }
   handleOpenModal = (id) => {
-    /*this.setState({
-      modalVisible: true,
-      media
-    })*/
-    this.props.dispatch({
-      type:'OPEN_MODAL',
-      payload:{
-        mediaId:id
-      }
-    })
+    
+    this.props.actions.openModal(id)
   }
   handleCloseModal = (id) => {
-    /*this.setState({
-      modalVisible: false,
-    })*/
-
-    this.props.dispatch({
-      type:'CLOSE_MODAL',
-      payload:{
-        mediaId:id
-      }
-    })
+ 
+    this.props.actions.closeModal()
   }
   render() {
     return (
@@ -45,6 +32,7 @@ class Home extends Component {
         <HomeLayout>
           <Related />
           <Categories
+          isLoading={this.props.isLoading}
             categories={this.props.categories}
             handleOpenModal={this.handleOpenModal}
             search={this.props.search} />
@@ -87,8 +75,16 @@ function mapStateToProps(state, props) {
   return {
     categories: categories,
     search: searchResults,
-    modal: state.get('modal')
+    modal: state.get('modal'),
+    isLoading:state.get('isLoading').get('active')
   };
 
 }
-export default connect(mapStateToProps)(Home)
+function mapDispatchToProps(dispatch){
+
+    return{
+      actions:bindActionCreators(actions,dispatch)
+    }
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(Home)

@@ -1,6 +1,7 @@
 import search from "../widgets/components/search";
 import normalizedData from '../Schemas/index';
 import { fromJS } from 'immutable';
+import {SEARCH_ENTITIES} from '../actions-types/index';
 
 const initialState =
     fromJS({
@@ -15,7 +16,7 @@ const initialState =
 function data(state = initialState, action) {
 
     switch (action.type) {
-        case 'SEARCH_VIDEO': {
+        case SEARCH_ENTITIES: {
             const query = action.payload.query.toLowerCase()
             return state.set('search', action.payload.query);
             /*     state.data.categories.forEach(element => {
